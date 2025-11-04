@@ -1,70 +1,101 @@
 import { useMemo, useState } from 'react';
 import { Heart, Star } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const products = [
   {
+    id: 'l1',
+    title: 'Nebula X15 Gaming Laptop (RTX 4070)',
+    price: 1899,
+    rating: 4.8,
+    image:
+      'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1600&auto=format&fit=crop',
+    badge: 'Bestseller',
+    category: 'Laptops',
+  },
+  {
+    id: 'd1',
+    title: 'Aegis Pro Desktop (Ryzen 9, RTX 4080)',
+    price: 2499,
+    rating: 4.9,
+    image:
+      'https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1600&auto=format&fit=crop',
+    badge: 'Limited',
+    category: 'Desktops',
+  },
+  {
+    id: 'm1',
+    title: 'CrystalView 27" 165Hz QHD Monitor',
+    price: 349,
+    rating: 4.6,
+    image:
+      'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1600&auto=format&fit=crop',
+    badge: 'New',
+    category: 'Monitors',
+  },
+  {
     id: 'p1',
-    title: 'AeroFlex Running Shoes',
+    title: 'Flux RGB Mechanical Keyboard (Hot-swappable)',
     price: 129,
     rating: 4.7,
     image:
-      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1600&auto=format&fit=crop',
-    badge: 'New',
-    category: 'Shoes',
+      'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1600&auto=format&fit=crop',
+    badge: 'Bestseller',
+    category: 'Peripherals',
   },
   {
     id: 'p2',
-    title: 'CloudWeave Hoodie',
-    price: 89,
+    title: 'Glide Pro Wireless Mouse',
+    price: 79,
     rating: 4.5,
     image:
-      'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1600&auto=format&fit=crop',
-    badge: 'Bestseller',
-    category: 'Apparel',
-  },
-  {
-    id: 'p3',
-    title: 'Minimalist Watch',
-    price: 169,
-    rating: 4.8,
-    image:
-      'https://images.unsplash.com/photo-1518546305927-5a555bb7020d?q=80&w=1600&auto=format&fit=crop',
-    badge: 'Limited',
-    category: 'Accessories',
-  },
-  {
-    id: 'p4',
-    title: 'Everyday Backpack',
-    price: 119,
-    rating: 4.6,
-    image:
-      'https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?q=80&w=1600&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1587825140400-9e43f66293d4?q=80&w=1600&auto=format&fit=crop',
     badge: 'New',
-    category: 'Accessories',
+    category: 'Peripherals',
   },
   {
-    id: 'p5',
-    title: 'Signature Tee',
-    price: 35,
-    rating: 4.4,
-    image:
-      'https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1600&auto=format&fit=crop',
-    badge: 'Sale',
-    category: 'Apparel',
-  },
-  {
-    id: 'p6',
-    title: 'Ultralight Jacket',
-    price: 149,
+    id: 'c1',
+    title: 'Eclipse 1TB NVMe Gen4 SSD',
+    price: 99,
     rating: 4.7,
     image:
-      'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1600&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1600&auto=format&fit=crop',
+    badge: 'Hot',
+    category: 'Components',
+  },
+  {
+    id: 'c2',
+    title: 'Spectra RTX 4070 Ti GPU',
+    price: 799,
+    rating: 4.8,
+    image:
+      'https://images.unsplash.com/photo-1555617117-08c5d9365a9a?q=80&w=1600&auto=format&fit=crop',
+    badge: 'Limited',
+    category: 'Components',
+  },
+  {
+    id: 'n1',
+    title: 'AeroLink AX5400 Wi‑Fi 6 Router',
+    price: 159,
+    rating: 4.4,
+    image:
+      'https://images.unsplash.com/photo-1587202372775-98927b43579a?q=80&w=1600&auto=format&fit=crop',
+    badge: 'New',
+    category: 'Networking',
+  },
+  {
+    id: 'a1',
+    title: 'Nimbus 7.1 Surround Gaming Headset',
+    price: 149,
+    rating: 4.5,
+    image:
+      'https://images.unsplash.com/photo-1518449007433-1517b8a3b155?q=80&w=1600&auto=format&fit=crop',
     badge: 'Bestseller',
-    category: 'Apparel',
+    category: 'Peripherals',
   },
 ];
 
-const categories = ['All', 'Apparel', 'Shoes', 'Accessories'];
+const categories = ['All', 'Laptops', 'Desktops', 'Monitors', 'Peripherals', 'Components', 'Networking'];
 
 export default function ProductGrid() {
   const [active, setActive] = useState('All');
@@ -79,15 +110,33 @@ export default function ProductGrid() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
           <div>
-            <h2 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">Featured Products</h2>
-            <p className="mt-2 text-sm text-white/70">Carefully selected picks loved by our community.</p>
+            <motion.h2
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.5 }}
+              className="text-2xl font-bold tracking-tight text-white sm:text-3xl"
+            >
+              Featured Tech
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 8 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="mt-2 text-sm text-white/70"
+            >
+              High-performance computers and accessories loved by our community.
+            </motion.p>
           </div>
 
           <div className="flex flex-wrap gap-2">
             {categories.map((c) => (
-              <button
+              <motion.button
                 key={c}
                 onClick={() => setActive(c)}
+                whileTap={{ scale: 0.98 }}
+                whileHover={{ y: -1 }}
                 className={`rounded-full border px-3 py-1.5 text-xs transition ${
                   active === c
                     ? 'border-transparent bg-gradient-to-r from-fuchsia-500 to-indigo-500 text-white shadow'
@@ -95,14 +144,28 @@ export default function ProductGrid() {
                 }`}
               >
                 {c}
-              </button>
+              </motion.button>
             ))}
           </div>
         </div>
 
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={{
+            hidden: {},
+            show: { transition: { staggerChildren: 0.06 } },
+          }}
+          className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {filtered.map((p) => (
-            <article key={p.id} className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition hover:-translate-y-0.5 hover:shadow-xl hover:shadow-fuchsia-500/10">
+            <motion.article
+              key={p.id}
+              variants={{ hidden: { opacity: 0, y: 16 }, show: { opacity: 1, y: 0 } }}
+              whileHover={{ y: -3 }}
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 transition shadow-sm"
+            >
               <div className="relative">
                 <img src={p.image} alt={p.title} className="h-56 w-full object-cover" loading="lazy" />
                 <span className="absolute left-3 top-3 inline-flex rounded-full bg-black/70 px-2.5 py-1 text-[10px] font-semibold text-white backdrop-blur">
@@ -125,13 +188,17 @@ export default function ProductGrid() {
                   <p className="text-sm font-semibold text-white">${p.price}</p>
                 </div>
 
-                <button className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-br from-fuchsia-500 to-indigo-500 px-3 py-2 text-sm font-semibold text-white transition hover:opacity-95">
+                <motion.button
+                  whileTap={{ scale: 0.98 }}
+                  whileHover={{ scale: 1.01 }}
+                  className="mt-3 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-br from-fuchsia-500 to-indigo-500 px-3 py-2 text-sm font-semibold text-white transition"
+                >
                   Add to cart
-                </button>
+                </motion.button>
               </div>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
